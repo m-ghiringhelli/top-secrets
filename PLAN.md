@@ -1,8 +1,9 @@
 # PLAN
 
 I POST route for create user to '/api/v1/users/sessions'
-- create user table
+  - create user table
 - test for creating user in table
+- create dummy user for testing
 - create model for user
 - insert method on user model
 - create controller for route
