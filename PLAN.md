@@ -2,9 +2,9 @@
 
 I POST route for create user to '/api/v1/users/sessions'
   - create user table
-- test for creating user in table
-- create dummy user for testing
-- create model for user
+  - create dummy user for testing
+  - test for creating user in table
+  - create model for user
 - insert method on user model
 - create controller for route
 - password hash for user password
