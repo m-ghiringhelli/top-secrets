@@ -1,6 +1,7 @@
 # PLAN
 
 I POST route for create user to '/api/v1/users/sessions'
+- create user table
 - test for creating user in table
 - create model for user
 - insert method on user model
@@ -16,6 +17,7 @@ III POST route for login user
 - store user info in cookie on sign in
 - sign in user method on userservice class
 IV GET route for '/api/v1/secrets' ([ {title, description, createdAt }])
+- create table for secrets
 - get all secrets test
 - secrets model
 - get all method
