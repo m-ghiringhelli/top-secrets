@@ -20,26 +20,18 @@ const registerAndLogin = async (userProps = {}) => {
   return [agent, user];
 };
 
-describe('user sign in and sign up routes', () => {
+describe('secrets routes', () => {
   beforeEach(() => {
     return setup(pool);
   });
 
-  it('creates a new user', async () => {
-    const res = await request(app).post('/api/v1/users').send(mockUser);
-    const { email } = mockUser;
+  it('GET from /secrets should only be allowed if signed in', async () => {
+    const res1 = await request(app).get('/api/v1/secrets');
+    expect(res1.error.status).toBe(401);
 
-    expect(res.body).toEqual({
-      id: expect.any(String),
-      email,
-    });
-  });
-
-  it('delete route logs out a user', async () => {
-    // check for status message for logged out
     const [agent] = await registerAndLogin();
-    const res = await agent.delete('/api/v1/users/sessions');
-    expect(res.body.message).toEqual('Signed out successfully!');
+    const res2 = await agent.get('/api/v1/secrets');
+    expect(res2.status).toBe(200);
   });
 
   afterAll(() => {
