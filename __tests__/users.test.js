@@ -42,6 +42,15 @@ describe('user sign in and sign up routes', () => {
     expect(res.body.message).toEqual('Signed out successfully!');
   });
 
+  it('GET from /secrets should only be allowed if signed in', async () => {
+    const res1 = await request(app).get('/api/v1/secrets').getAll();
+    expect(res1.message).toEqual('You must be signed in!!');
+
+    const [agent] = await registerAndLogin();
+    const res2 = await agent.get('/api/v1/secrets');
+    expect(res2.body.status).toEqual(200);
+  });
+
   afterAll(() => {
     pool.end();
   });
