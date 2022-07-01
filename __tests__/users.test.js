@@ -23,6 +23,17 @@ describe('user sign in and sign up routes', () => {
     });
   });
 
+  it('should delete a user', async () => {
+    // add user
+    const addRes = await request(app).post('/api/v1/users').send(mockUser);
+    expect(addRes.status).toBe(200);
+
+    // delete user
+    const deleteRes = await request(app).delete('/api/v1/users');
+    expect(deleteRes.status).toBe(200);
+
+  });
+
   afterAll(() => {
     pool.end();
   });

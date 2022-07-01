@@ -6,9 +6,9 @@ I POST route for create user to '/api/v1/users/sessions'
   - test for creating user in table
   - create model for user
   - insert method on user model
-- password hash for user password
-- create user on userservice class
-- create controller for route
+  - password hash for user password
+  - create user on userservice class
+  - create controller for route
 II DELETE for same path
 - test for deleting user from table`
 - controller for route
