@@ -3,6 +3,7 @@ const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
 const UserService = require('../lib/services/UserService');
+const { Secret } = require('../lib/models/Secret');
 
 // fake user for testing:
 const mockUser = {
@@ -31,6 +32,19 @@ describe('secrets routes', () => {
 
     const [agent] = await registerAndLogin();
     const res2 = await agent.get('/api/v1/secrets');
+    expect(res2.status).toBe(200);
+  });
+
+  it('should post a new secret to table', async () => {
+    const secret = new Secret({
+      title: 'This is a secret',
+      description: 'Its super secret'
+    });
+    const res1 = await request(app).post('/api/v1/secrets').send(secret);
+    expect(res1.status).toBe(401);
+
+    const [agent] = await registerAndLogin();
+    const res2 = await agent.post('/api/v1/secrets').send(secret);
     expect(res2.status).toBe(200);
   });
 
