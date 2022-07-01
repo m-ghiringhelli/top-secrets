@@ -2,6 +2,7 @@ const pool = require('../lib/utils/pool');
 const setup = require('../data/setup');
 const request = require('supertest');
 const app = require('../lib/app');
+const UserService = require('../lib/services/UserService');
 
 // fake user for testing:
 const mockUser = {
@@ -9,10 +10,15 @@ const mockUser = {
   password: '12345'
 };
 
-const mockUser2 = {
-  email: 'test2@example.com',
-  password: '12345'
-};
+// const registerAndLogin = async (userProps = {}) => {
+//   const password = userProps.password ?? mockUser.password;
+//   const agent = request.agent(app);
+//   const user = await UserService.create({ ...mockUser, ...userProps });
+
+//   const { email } = user;
+//   await agent.post('/api/v1/users/sessions').send({ email, password });
+//   return [agent, user];
+// };
 
 describe('user sign in and sign up routes', () => {
   beforeEach(() => {
@@ -22,7 +28,7 @@ describe('user sign in and sign up routes', () => {
   it('creates a new user', async () => {
     const res = await request(app).post('/api/v1/users').send(mockUser);
     const { email } = mockUser;
-    console.log('res', res.body);
+
     expect(res.body).toEqual({
       id: expect.any(String),
       email,
@@ -31,13 +37,11 @@ describe('user sign in and sign up routes', () => {
 
   it('delete route logs out a user', async () => {
     // add user
-    const addRes = await request(app).post('/api/v1/users').send(mockUser2);
-    console.log('addRes', addRes.body);
+    const addRes = await request(app).post('/api/v1/users').send(mockUser);
     expect(addRes.status).toBe(200);
 
     // delete user
     const deleteRes = await request(app).delete('/api/v1/users/5');
-    console.log('deleteRes', deleteRes.body);
     expect(deleteRes.status).toBe(200);
   });
 
