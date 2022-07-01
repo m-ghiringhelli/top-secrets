@@ -20,8 +20,9 @@ describe('user sign in and sign up routes', () => {
   });
 
   it('creates a new user', async () => {
-    const res = await request(app).post('/api/v1/users/sessions').send(mockUser);
+    const res = await request(app).post('/api/v1/users').send(mockUser);
     const { email } = mockUser;
+    console.log('res', res.body);
     expect(res.body).toEqual({
       id: expect.any(String),
       email,
