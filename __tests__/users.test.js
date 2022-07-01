@@ -43,12 +43,12 @@ describe('user sign in and sign up routes', () => {
   });
 
   it('GET from /secrets should only be allowed if signed in', async () => {
-    const res1 = await request(app).get('/api/v1/secrets').getAll();
-    expect(res1.message).toEqual('You must be signed in!!');
+    const res1 = await request(app).get('/api/v1/secrets');
+    expect(res1.error.status).toBe(401);
 
     const [agent] = await registerAndLogin();
     const res2 = await agent.get('/api/v1/secrets');
-    expect(res2.body.status).toEqual(200);
+    expect(res2.status).toBe(200);
   });
 
   afterAll(() => {
