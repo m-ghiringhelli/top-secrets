@@ -10,15 +10,15 @@ const mockUser = {
   password: '12345'
 };
 
-// const registerAndLogin = async (userProps = {}) => {
-//   const password = userProps.password ?? mockUser.password;
-//   const agent = request.agent(app);
-//   const user = await UserService.create({ ...mockUser, ...userProps });
+const registerAndLogin = async (userProps = {}) => {
+  const password = userProps.password ?? mockUser.password;
+  const agent = request.agent(app);
+  const user = await UserService.create({ ...mockUser, ...userProps });
 
-//   const { email } = user;
-//   await agent.post('/api/v1/users/sessions').send({ email, password });
-//   return [agent, user];
-// };
+  const { email } = user;
+  await agent.post('/api/v1/users/sessions').send({ email, password });
+  return [agent, user];
+};
 
 describe('user sign in and sign up routes', () => {
   beforeEach(() => {
@@ -36,13 +36,10 @@ describe('user sign in and sign up routes', () => {
   });
 
   it('delete route logs out a user', async () => {
-    // add user
-    const addRes = await request(app).post('/api/v1/users').send(mockUser);
-    expect(addRes.status).toBe(200);
-
-    // delete user
-    const deleteRes = await request(app).delete('/api/v1/users/5');
-    expect(deleteRes.status).toBe(200);
+    // check for status message for logged out
+    const [agent] = await registerAndLogin();
+    const res = await agent.delete('/api/v1/users/sessions');
+    expect(res.body.message).toEqual('Signed out successfully!');
   });
 
   afterAll(() => {
